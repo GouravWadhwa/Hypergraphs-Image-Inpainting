@@ -9,6 +9,16 @@ Gourav Wadhwa, Abhinav Dhall, Subrahmanyam Murala, and Usman Tariq, Hyperrealist
 <img src="./Examples/Teaser.png" width="100%" alt="Teaser">
 <img src="./Examples/demo.gif" width="40%" alt="demo">
 
+## Dependencies
+* Python 3.5 or higher
+* Tensorflow 2.x (tested on 2.0.0, 2.1.0, 2.2.0)
+* Numpy
+* Pillow
+* Matplotlib
+* tqdm
+* OpenCV
+* Scipy
+
 ## Our Framework
 
 We use a two stage coarse-to-refine network for the task of image inpainting
