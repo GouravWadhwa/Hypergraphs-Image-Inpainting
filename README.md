@@ -8,6 +8,14 @@ Gourav Wadhwa, Abhinav Dhall, Subrahmanyam Murala, and Usman Tariq, Hyperrealist
 
 <img src="./Examples/Teaser.png" width="100%" alt="Teaser">
 
+## Our Framework
+
+We use a two stage coarse-to-refine network for the task of image inpainting
+<img src="./Examples/network.png" width="100%" alt="network">
+
+## Hypergraph Layer 
+<img src="./Examples/hypergraph_layer.png" width="60%" alt="hypergraph_layer">
+
 ## Installation
 
 ```bash
