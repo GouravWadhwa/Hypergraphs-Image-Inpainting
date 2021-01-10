@@ -6,6 +6,15 @@ Gourav Wadhwa, Abhinav Dhall, Subrahmanyam Murala, and Usman Tariq, Hyperrealist
 
 [Paper](https://openaccess.thecvf.com/content/WACV2021/papers/Wadhwa_Hyperrealistic_Image_Inpainting_With_Hypergraphs_WACV_2021_paper.pdf) | [Supplementary Material](https://openaccess.thecvf.com/content/WACV2021/supplemental/Wadhwa_Hyperrealistic_Image_Inpainting_WACV_2021_supplemental.pdf) | [BibTex](#refernce)
 
+<img src="./Examples/Teaser.png" width="100%" alt="Teaser">
+
+## Installation
+
+```bash
+git clone https://github.com/GouravWadhwa/Hypergraphs-Image-Inpainting.git
+cd Hypergraphs-Image-Inpainting
+```
+
 ## Reference
 
 If you find this work useful or gives you some insights, please cite:
