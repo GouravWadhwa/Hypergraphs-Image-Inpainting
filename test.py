@@ -23,27 +23,34 @@ def load_image (image_file, config) :
     return image
 
 def test (config) :
-    if config.random_mask == 0 :
-        mask = center_mask (config.image_shape[0], config.image_shape[1])
-
+    if config.test_file_path != '' :
+        print (config.test_file_path)
         count = 0
-        for root, dirs, files in os.walk (config.test_dir) :
-            for file in files :
-                if not file.split('.')[-1] in ['jpg', 'png', 'jpeg'] :
-                    continue
-                
-                gt_image = load_image (file)
-                input_image = np.where (mask==1, 1, gt_image)
 
-                input_image = np.expand_dims (input_image, axis=0)
-                
-                prediction_coarse, prediction_refine = generator ([img, mask], training=False)
-                prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
-                save_images (input_image, gt_image, prediction_coarse, prediction_refine, os.path.join (config.testing_dir, file))
-                
-                count += 1
-                if count == config.test_num :
-                    return
+        file = open (config.test_file_path)
+        for line in file.readlines () :
+            if not file.split('.')[-1] in ['jpg', 'png', 'jpeg'] :
+                continue
+            
+            print ('Processing Image -', file)
+            if config.random_mask == 1 :
+                mask = irregular_mask (config.image_shape[0], config.image_shape[1], config.min_strokes, config.max_strokes)
+            else :
+                mask = center_mask (config.image_shape[0], config.image_shape[1])
+
+            gt_image = load_image (os.path.join (root, file), config)
+            gt_image = np.expand_dims (gt_image, axis=0)
+
+            input_image = np.where (mask==1, 1, gt_image)
+
+            prediction_coarse, prediction_refine = generator ([input_image, mask], training=False)
+            prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
+            save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, file))
+            
+            count += 1
+            if count == config.test_num :
+                return
+            print ('-'*20)
     else :
         count = 0
         for root, dirs, files in os.walk (config.test_dir) :
@@ -51,19 +58,25 @@ def test (config) :
                 if not file.split('.')[-1] in ['jpg', 'png', 'jpeg'] :
                     continue
                 
-                mask = irregular_mask (config.image_shape[0], config.image_shape[1])
-                gt_image = load_image (file)
+                print ('Processing Image -', file)
+                if config.random_mask == 1 :
+                    mask = irregular_mask (config.image_shape[0], config.image_shape[1], config.min_strokes, config.max_strokes)
+                else :
+                    mask = center_mask (config.image_shape[0], config.image_shape[1])
+
+                gt_image = load_image (os.path.join (root, file), config)
+                gt_image = np.expand_dims (gt_image, axis=0)
+
                 input_image = np.where (mask==1, 1, gt_image)
 
-                input_image = np.expand_dims (input_image, axis=0)
-                
-                prediction_coarse, prediction_refine = generator ([img, mask], training=False)
+                prediction_coarse, prediction_refine = generator ([input_image, mask], training=False)
                 prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
-                save_images (input_image, gt_image, prediction_coarse, prediction_refine, os.path.join (config.testing_dir, file))
+                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, file))
                 
                 count += 1
                 if count == config.test_num :
                     return
+                print ('-'*20)
 
 if __name__ == '__main__' :
     # Loading the arguments

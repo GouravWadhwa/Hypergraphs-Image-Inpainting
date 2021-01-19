@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-from gc_layer import GatedConvolution, GatedDeConvolution
-from hypergraph_layer import HypergraphConv
+from models.gc_layer import GatedConvolution, GatedDeConvolution
+from models.hypergraph_layer import HypergraphConv
 
 class Model () :
     # Generator Network

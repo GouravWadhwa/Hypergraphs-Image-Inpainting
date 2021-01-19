@@ -89,7 +89,7 @@ class HypergraphConv (tf.keras.layers.Layer) :
         B = tf.linalg.diag (tf.math.pow (B, -1))
         
         # Reshape the input features to apply the Hypergraph Convolution
-        features = tf.reshape (features, shape=(-1, self.vertices, self.in_features))
+        features = tf.reshape (x, shape=(-1, self.vertices, self.in_features))
         
         # Hypergraph Convolution
         out = features - tf.matmul (D_H, tf.matmul (B, tf.matmul (tf.transpose (D_H, perm=[0, 2, 1]), features)))

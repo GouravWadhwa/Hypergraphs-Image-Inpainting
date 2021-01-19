@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
+import cv2
+import os
 
 from PIL import Image, ImageDraw
 
@@ -39,7 +42,8 @@ def center_mask (image_height, image_width) :
     mask [:, image_height//4:(image_height//4)*3, image_height//4:(image_height//4)*3, :] = 1.0
     return mask
 
-def save_images (input_image, ground_truth, prediction_refine, prediction_coarse, path) :
+def save_images (input_image, ground_truth, prediction_coarse, prediction_refine, path) :
+
     display_list = [input_image, ground_truth, prediction_coarse, prediction_refine]
     img = np.concatenate (display_list, axis=1)
     plt.imsave (path, np.clip (img, 0, 1.0))
