@@ -42,15 +42,13 @@ Download the pretrained models from the following links
 * Paris Street View ([Center Mask](https://drive.google.com/drive/folders/1KHnXT-QmfDkpy2tgo3faBAt6it-9ZUsU?usp=sharing), [Random Mask](https://drive.google.com/drive/folders/1ecrjYXCL8FHnfZ-JMRVCUluuvvkuNGTK?usp=sharing))
 * Facades Dataset ([Center Mask](https://drive.google.com/drive/folders/1kf5SacEoBpr9li4F7Wwnj2XiX_uQwhRr?usp=sharing), [Random Mask](https://drive.google.com/drive/folders/1uJWJjWn7RXEhVwUYZycnv4IZzUaHomAW?usp=sharing))
 
-Put the checkpoints in the folder `pretrained_models\`. To test images in a folder, specify the path to the folder using `--test_dir` and specify the model to be loaded using `--checkpoint_prefix`.
+Put the checkpoints in the folder `pretrained_models/`. To test images in a folder, specify the path to the folder using `--test_dir` and specify the model to be loaded using `--checkpoint_prefix`.
 
 For example (for CelebA-HQ dataset on Random Mask) :
 
 ```bash
-python test.py --dataset celeba-hq --pretrained_model_dir pretrained_models --checkpoint_prefix celeba_hq_256x256_random_mask --random_mask 1 --test_dir [Testing Folder Path]
+python test.py --dataset celeba-hq --pretrained_model_dir pretrained_models/ --checkpoint_prefix celeba_hq_256x256_random_mask --random_mask 1 --test_dir [Testing Folder Path]
 ```
-
-
 
 ## Reference
 
