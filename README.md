@@ -50,6 +50,10 @@ For example (for CelebA-HQ dataset on Random Mask) :
 python test.py --dataset celeba-hq --pretrained_model_dir pretrained_models/ --checkpoint_prefix celeba_hq_256x256_random_mask --random_mask 1 --test_dir [Testing Folder Path]
 ```
 
+Note - For all predicted images, 1st image represent the input image, 2nd represent the ground truth, 3rd represents the coarse network output and the final image is our final prediction.
+
+You can use `evaluate.py` to determine SSIM and PSNR of the predicted images. 
+
 ## Reference
 
 If you find this work useful or gives you some insights, please cite:
