@@ -28,6 +28,10 @@ class HypergraphConv (tf.keras.layers.Layer) :
         self.trainable = trainable
         self.filters = filters
 
+        self.phi_conv = tf.keras.layers.Conv2D (self.filters, kernel_size=1, strides=1, padding='same', kernel_initializer=tf.keras.initializers.glorot_normal())
+        self.A_conv = tf.keras.layers.Conv2D (self.filters, kernel_size=1, strides=1, padding='same', kernel_initializer=tf.keras.initializers.glorot_normal())
+        self.M_conv = tf.keras.layers.Conv2D (self.edges, kernel_size=7, strides=1, padding='same', kernel_initializer=tf.keras.initializers.glorot_normal ())
+
         # Make a weight of size (input channels * output channels) for applying the hypergraph convolution
         self.weight_2 = self.add_weight (
             name='Weight_2',
@@ -60,17 +64,17 @@ class HypergraphConv (tf.keras.layers.Layer) :
         # out = L * features * self.weight_2 + self.bias_2
 
         # Phi Matrix
-        phi = tf.keras.layers.Conv2D (self.filters, kernel_size=1, strides=1, padding='same', kernel_initializer=tf.keras.initializers.glorot_normal()) (x)
+        phi = self.phi_conv (x)
         phi = tf.reshape (phi, shape=(-1, self.vertices, self.filters))
         
         # Lambda Matrix
         A = tf.keras.layers.GlobalAveragePooling2D () (x)
         A = tf.expand_dims (tf.expand_dims (A, axis=1), axis=1)
-        A = tf.keras.layers.Conv2D (self.filters, kernel_size=1, strides=1, padding='same', kernel_initializer=tf.keras.initializers.glorot_normal()) (A)
+        A = self.A_conv (A)
         A = tf.linalg.diag (tf.squeeze (A))
 
         # Omega Matrix
-        M = tf.keras.layers.Conv2D (self.edges, kernel_size=7, strides=1, padding='same', kernel_initializer=tf.keras.initializers.glorot_normal ()) (x)
+        M = self.M_conv (x)
         M = tf.reshape (M, shape=(-1, self.vertices, self.edges))
         
         # Incidence matrix
