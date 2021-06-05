@@ -54,6 +54,18 @@ Note - For all predicted images, 1st image represent the input image, 2nd repres
 
 You can use `evaluate.py` to determine SSIM and PSNR of the predicted images. 
 
+## Training
+You can train the Hyperrealistic image inpainting network using the following command
+
+For CelebA-HQ dataset with irregular holes
+
+```bash
+python training.py  --random_mask 1 --train_dir [Training Folder Path] --batch_size [Batch Size]
+```
+
+For center mask change the `-random mask` to `1`.
+Training results and the checkpoints will be stored in the Training directory created by running this code.
+
 ## Reference
 
 If you find this work useful or gives you some insights, please cite:
