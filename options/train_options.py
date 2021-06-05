@@ -9,12 +9,14 @@ class TrainOptions :
 
     def initialize (self) :
         self.parser.add_argument ('--dataset', type=str, default='celeba-hq', help="Dataset name for training")
-        self.parser.add_argument ('--train_file_path', type=str, default='', help='The file storing the names of the file for training')
+        self.parser.add_argument ('--train_dir', type=str, default='', help="directory where all images are stored")
+        self.parser.add_argument ('--train_file_path', type=str, default='', help='The file storing the names of the file for training (If not provided training will happen for all images in train_dir)')
         self.parser.add_argument ('--gpu_ids', type=str, default='0', help='GPU to be used')
         self.parser.add_argument ('--base_dir', type=str, default='Training')
         self.parser.add_argument ('--checkpoints_dir', type=str, default='training_checkpoints', help='here models are saved during training')
         self.parser.add_argument ('--pretrained_model_dir', type=str, default='', help='pretrained model are provided here')
         self.parser.add_argument ('--batch_size', type=int, default=1, help='batch size used during training')
+        self.parser.add_argument ('--buffer_size', type=int, default=500, help='buffer size for data')
 
         self.parser.add_argument ('--random_mask', type=int, default=0, help='0 -> Center 128 * 128 mask, 1 -> random mask')
         self.parser.add_argument ('--random_mask_type', type=str, default='irregular_mask', help='options - irregular_mask and random_rect')
@@ -28,7 +30,7 @@ class TrainOptions :
         self.parser.add_argument ('--pl_comp', type=float, default=0.0001)
         self.parser.add_argument ('--pl_out', type=float, default=0.0001)
 
-        self.parser.add_argument ('--lr', type=float, default=1e-4)
+        self.parser.add_argument ('--learning_rate', type=float, default=1e-4)
         self.parser.add_argument ('--decay_rate', type=float, default=0.96)
         self.parser.add_argument ('--decay_steps', type=int, default=50000)
 
@@ -60,7 +62,7 @@ class TrainOptions :
 
         self.opt.date_str = time.strftime ('%Y%m%d-%H%M%S')
         self.opt.model_name = 'HypergraphII'
-        self.opt.model_folder = self.opt.date_str + "_" + self.opt.model_name
+        self.opt.model_folder = self.opt.model_name
         self.opt.model_folder += "_" + self.opt.dataset
         self.opt.model_folder += "_shape" + str(self.opt.image_shape[0]) + 'x' + str(self.opt.image_shape[1])
         self.opt.model_folder += '_center_mask' if self.opt.random_mask == 0 else '_random_mask'
@@ -69,8 +71,8 @@ class TrainOptions :
         if not os.path.isdir (self.opt.base_dir) :
             os.mkdir (self.opt.base_dir)
 
-        self.opt.checkpoint_saving_dir = os.path.join (self.opt.base_dir, self.opt.model_folder, self.opt.checkpoints_dir)
         self.opt.training_dir = os.path.join (self.opt.base_dir, self.opt.model_folder)
+        self.opt.checkpoint_saving_dir = os.path.join (self.opt.base_dir, self.opt.model_folder, self.opt.checkpoints_dir)
 
         if not os.path.isdir (self.opt.training_dir) :
             os.mkdir (self.opt.training_dir)
