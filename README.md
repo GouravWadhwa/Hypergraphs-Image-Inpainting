@@ -63,7 +63,12 @@ For CelebA-HQ dataset with irregular holes
 python training.py  --random_mask 1 --train_dir [Training Folder Path] --batch_size [Batch Size]
 ```
 
+where `[Training Folder Path]` indicates the path in which training images are stored, and `[Batch Size]` indicated the batch size used for training.
+
 For center mask change the `-random mask` to `1`.
+
+Instead of providing the training directory you can also make a file in which the path of all training images is stored (`--train_file_path [TRAIN FILE PATH]`)
+
 Training results and the checkpoints will be stored in the Training directory created by running this code.
 
 ## Reference
@@ -82,4 +87,3 @@ If you find this work useful or gives you some insights, please cite:
 ## Contact
 
 For any further queries please contact at 2017eeb1206@iitrpr.ac.in 
-(The code is under development.)
