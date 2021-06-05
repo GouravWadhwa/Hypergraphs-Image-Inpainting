@@ -31,7 +31,6 @@ def predict (config, dataset, epoch, mask_function) :
         prediction_coarse, prediction_refine = generator ([masked_image, mask], training=False)
         
         path = os.path.join (config.training_dir, f"EPOCH{epoch}", f"Image{n}.jpg")
-        print (path)
         save_images (masked_image[0, :, :, :], original_image[0, :, :, :], prediction_coarse[0, :, :, :], prediction_refine[0, :, :, :], path)
 
 def generator_loss (disc_generated_output, gen_output_coarse, gen_output_refine, target, mask) :
