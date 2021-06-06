@@ -11,7 +11,6 @@ from tqdm import tqdm
 
 from models.model import Model
 from utils.util import *
-from utils.losses import *
 from options.train_options import TrainOptions
 
 def load_images (image_file) :
