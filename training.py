@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 from models.model import Model
 from utils.util import *
+from utils.losses import *
 from options.train_options import TrainOptions
 
 def load_images (image_file) :
@@ -24,12 +25,13 @@ def load_images (image_file) :
 
 def predict (config, dataset, epoch, mask_function) :
     for n, (original_image) in dataset.take(100).enumerate() :
-        mask = mask_function (config.image_shape[0], config.image_shape[1])
+        mask = mask_function (config.image_shape[0], config.image_shape[1], batch_size=BATCH_SIZE)
         masked_image = np.where (mask==1, 1, original_image)
 
         prediction_coarse, prediction_refine = generator ([masked_image, mask], training=False)
         
         path = os.path.join (config.training_dir, f"EPOCH{epoch}", f"Image{n}.jpg")
+        print (path)
         save_images (masked_image[0, :, :, :], original_image[0, :, :, :], prediction_coarse[0, :, :, :], prediction_refine[0, :, :, :], path)
 
 def generator_loss (disc_generated_output, gen_output_coarse, gen_output_refine, target, mask) :
@@ -109,7 +111,7 @@ def fit (config, train_dataset, epochs) :
 
         print ("EPOCH : " + str (epoch))
         for n, (original_image) in tqdm (train_dataset.enumerate()) :
-            mask = mask_function (config.image_shape[0], config.image_shape[1])
+            mask = mask_function (config.image_shape[0], config.image_shape[1], batch_size=BATCH_SIZE)
             masked_image = np.where (mask==1, 1, original_image)
 
             total_loss, valid_l1_loss, hole_l1_loss, edge_loss, gan_loss, pl_out, pl_comp, disc_loss = train_step (original_image, masked_image, mask, epoch)
