@@ -20,6 +20,7 @@ repos:
         args:
           - --in-place
           - --remove-all-unused-imports
+          - --expand-star-imports
   - repo: https://github.com/pycqa/isort
     rev: 5.9.1
     hooks:

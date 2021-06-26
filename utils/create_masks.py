@@ -1,12 +1,14 @@
-# Generate Irregular Random Masks of random percentages 
+# Generate Irregular Random Masks of random percentages
 
-import cv2
 import os
-import numpy as np
-import matplotlib.pyplot as plt
 import random
 
-def irregular_shape (mask) :
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def irregular_shape(mask):
     mask_shape = mask.shape
     model = random.random()
     if model < 0.6:
@@ -29,15 +31,17 @@ def irregular_shape (mask) :
         a1, a2, a3 = random.randint(3, 180), random.randint(3, 180), random.randint(3, 180)
         thickness = random.randint(4, MAX_WIDTH)
         cv2.ellipse(mask, (x1, y1), (s1, s2), a1, a2, a3, (1, 1, 1), thickness)
-            
+
     return mask
 
-def reduce_mask (mask, count) :
-    x, y = np.where (mask == 1)
-    for i in range (count) :
+
+def reduce_mask(mask, count):
+    x, y = np.where(mask == 1)
+    for i in range(count):
         mask[x[i], y[i]] = 0
-        
+
     return mask
+
 
 COUNT = 2000
 
@@ -45,21 +49,23 @@ IMAGE_HEIGHT = 256
 IMAGE_WIDTH = 256
 MAX_WIDTH = 20
 
-mask_dirs = [(0.5, 0.6, "Random_masks_50-60/"), ]
+mask_dirs = [
+    (0.5, 0.6, "Random_masks_50-60/"),
+]
 
-for MIN_PERCENT, MAX_PERCENT, mask_dir in mask_dirs :
+for MIN_PERCENT, MAX_PERCENT, mask_dir in mask_dirs:
 
-    if not os.path.isdir (mask_dir) :
-        os.mkdir (mask_dir)
+    if not os.path.isdir(mask_dir):
+        os.mkdir(mask_dir)
 
-    for i in range (COUNT) :
-        mask = np.zeros ([IMAGE_HEIGHT, IMAGE_WIDTH], np.uint8)
-        while (True) :
-            if float (np.sum (mask) / (IMAGE_HEIGHT * IMAGE_WIDTH)) >= MIN_PERCENT and float (np.sum (mask) / (IMAGE_HEIGHT * IMAGE_WIDTH)) <= MAX_PERCENT :
+    for i in range(COUNT):
+        mask = np.zeros([IMAGE_HEIGHT, IMAGE_WIDTH], np.uint8)
+        while True:
+            if float(np.sum(mask) / (IMAGE_HEIGHT * IMAGE_WIDTH)) >= MIN_PERCENT and float(np.sum(mask) / (IMAGE_HEIGHT * IMAGE_WIDTH)) <= MAX_PERCENT:
                 break
-            elif float (np.sum (mask) / (IMAGE_HEIGHT * IMAGE_WIDTH)) > MAX_PERCENT :
-                mask = reduce_mask (mask, int (np.sum (mask) - MAX_PERCENT * (IMAGE_HEIGHT * IMAGE_WIDTH)))
-            
-            mask = irregular_shape (mask)
-            
-        plt.imsave (mask_dir + "mask" + str(i) + ".jpg", mask, cmap='gray')
+            elif float(np.sum(mask) / (IMAGE_HEIGHT * IMAGE_WIDTH)) > MAX_PERCENT:
+                mask = reduce_mask(mask, int(np.sum(mask) - MAX_PERCENT * (IMAGE_HEIGHT * IMAGE_WIDTH)))
+
+            mask = irregular_shape(mask)
+
+        plt.imsave(mask_dir + "mask" + str(i) + ".jpg", mask, cmap="gray")

@@ -1,21 +1,20 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import random
+
 import cv2
-import os
+import matplotlib.pyplot as plt
+import numpy as np
 
-from PIL import Image, ImageDraw
 
-def irregular_mask (image_height, image_width, batch_size=1, min_strokes=16, max_strokes=48) :
+def irregular_mask(image_height, image_width, batch_size=1, min_strokes=16, max_strokes=48):
     masks = []
-    
-    for b in range (BATCH_SIZE) :
-        mask = np.zeros ((image_height, image_width), np.uint8)
+
+    for b in range(BATCH_SIZE):
+        mask = np.zeros((image_height, image_width), np.uint8)
         mask_shape = mask.shape
 
         max_width = 20
-        number = random.randint (min_strokes, max_strokes)
-        for _ in range (number) :
+        number = random.randint(min_strokes, max_strokes)
+        for _ in range(number):
             model = random.random()
             if model < 0.6:
                 # Draw random lines
@@ -37,19 +36,21 @@ def irregular_mask (image_height, image_width, batch_size=1, min_strokes=16, max
                 a1, a2, a3 = random.randint(3, 180), random.randint(3, 180), random.randint(3, 180)
                 thickness = random.randint(4, max_width)
                 cv2.ellipse(mask, (x1, y1), (s1, s2), a1, a2, a3, (1, 1, 1), thickness)
-        
-        masks.append (mask[:, :, np.newaxis])
 
-    return np.array (masks).astype ('float32')
+        masks.append(mask[:, :, np.newaxis])
 
-def center_mask (image_height, image_width, batch_size=1) :
-    mask = np.zeros ((batch_size, image_height, image_width, 1)).astype ('float32')
-    mask [:, image_height//4:(image_height//4)*3, image_height//4:(image_height//4)*3, :] = 1.0
+    return np.array(masks).astype("float32")
+
+
+def center_mask(image_height, image_width, batch_size=1):
+    mask = np.zeros((batch_size, image_height, image_width, 1)).astype("float32")
+    mask[:, image_height // 4: (image_height // 4) * 3, image_height // 4: (image_height // 4) * 3, :] = 1.0
 
     return mask
 
-def save_images (input_image, ground_truth, prediction_coarse, prediction_refine, path) :
+
+def save_images(input_image, ground_truth, prediction_coarse, prediction_refine, path):
 
     display_list = [input_image, ground_truth, prediction_coarse, prediction_refine]
-    img = np.concatenate (display_list, axis=1)
-    plt.imsave (path, np.clip (img, 0, 1.0))
+    img = np.concatenate(display_list, axis=1)
+    plt.imsave(path, np.clip(img, 0, 1.0))
