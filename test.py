@@ -6,6 +6,9 @@ import tensorflow as tf
 from models.model import Model
 from options.test_options import TestOptions
 from utils.util import center_mask, irregular_mask, save_images
+from pathlib import Path
+
+SUPPORTED_IMAGE_TYPES = ["jpg", "png", "jpeg"]
 
 
 def load_image(image_file, config):
@@ -20,33 +23,38 @@ def load_image(image_file, config):
 
 def test(config):
     if config.test_file_path != "":
-        print(f"Running with single file {config.test_file_path}")
+        file_path = Path(config.test_file_path)
+        print(f"Running with single file {file_path}")
         count = 0
 
-        file = open(config.test_file_path)
-        for line in file.readlines():
-            if not file.split(".")[-1] in ["jpg", "png", "jpeg"]:
-                continue
+        if file_path.suffix.lower()[1:] not in SUPPORTED_IMAGE_TYPES:
+            raise Exception(f'File {file_path} is not supported')
+        if not file_path.exists():
+            raise Exception(f'File {file_path} does not exist')
+        if not file_path.is_file():
+            raise Exception(f'File {file_path} is not a file')
 
-            print("Processing Image -", file)
-            if config.random_mask == 1:
-                mask = irregular_mask(config.image_shape[0], config.image_shape[1], config.min_strokes, config.max_strokes)
-            else:
-                mask = center_mask(config.image_shape[0], config.image_shape[1])
-            # FIXME: Fix this to work with single image at CWD
-            gt_image = load_image(os.path.join(".", file), config)
-            gt_image = np.expand_dims(gt_image, axis=0)
+        print("Processing Image -", file_path)
+        if config.random_mask == 1:
+            mask = irregular_mask(config.image_shape[0], config.image_shape[1], config.min_strokes, config.max_strokes)
+        else:
+            mask = center_mask(config.image_shape[0], config.image_shape[1])
 
-            input_image = np.where(mask == 1, 1, gt_image)
+        gt_image = load_image(str(file_path), config)
+        gt_image = np.expand_dims(gt_image, axis=0)
 
-            prediction_coarse, prediction_refine = generator([input_image, mask], training=False)
-            prediction_refine = prediction_refine * mask + gt_image * (1 - mask)
-            save_images(input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join(config.testing_dir, file))
+        input_image = np.where(mask == 1, 1, gt_image)
 
-            count += 1
-            if count == config.test_num:
-                return
-            print("-" * 20)
+        prediction_coarse, prediction_refine = generator([input_image, mask], training=False)
+        prediction_refine = prediction_refine * mask + gt_image * (1 - mask)
+
+        output_file = str(Path(config.testing_dir).joinpath(file_path.name))
+        save_images(input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], output_file)
+
+        count += 1
+        if count == config.test_num:
+            return
+        print("-" * 20)
     else:
         count = 0
         print(f"Running with directory {config.test_dir}")
