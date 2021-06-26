@@ -1,3 +1,5 @@
 black
 autopep8
 pre-commit
+flake8
+isort
