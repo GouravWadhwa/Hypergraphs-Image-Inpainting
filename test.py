@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
@@ -6,7 +7,6 @@ import tensorflow as tf
 from models.model import Model
 from options.test_options import TestOptions
 from utils.util import center_mask, irregular_mask, save_images
-from pathlib import Path
 
 SUPPORTED_IMAGE_TYPES = ["jpg", "png", "jpeg"]
 
@@ -28,11 +28,11 @@ def test(config):
         count = 0
 
         if file_path.suffix.lower()[1:] not in SUPPORTED_IMAGE_TYPES:
-            raise Exception(f'File {file_path} is not supported')
+            raise Exception(f"File {file_path} is not supported")
         if not file_path.exists():
-            raise Exception(f'File {file_path} does not exist')
+            raise Exception(f"File {file_path} does not exist")
         if not file_path.is_file():
-            raise Exception(f'File {file_path} is not a file')
+            raise Exception(f"File {file_path} is not a file")
 
         print("Processing Image -", file_path)
         if config.random_mask == 1:
