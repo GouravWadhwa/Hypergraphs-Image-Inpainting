@@ -4,15 +4,6 @@ repos:
     hooks:
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
-  - repo: https://github.com/psf/black
-    rev: 21.6b0
-    hooks:
-      - id: black
-        language_version: python3.9
-  - repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: v1.5.7
-    hooks:
-      - id: autopep8
   - repo: https://github.com/myint/autoflake
     rev: 'v1.4'
     hooks:
@@ -25,6 +16,15 @@ repos:
     rev: 5.9.1
     hooks:
       - id: isort
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.5.7
+    hooks:
+      - id: autopep8
+  - repo: https://github.com/psf/black
+    rev: 21.6b0
+    hooks:
+      - id: black
+        language_version: python3.9
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.9.2
     hooks:

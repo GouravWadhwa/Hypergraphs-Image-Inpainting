@@ -1,3 +1,4 @@
 [flake8]
+ignore = E,W503  # Let Black handle all the formatting.
 max-line-length = 160
 extend-ignore = E203
