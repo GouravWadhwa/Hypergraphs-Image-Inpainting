@@ -140,3 +140,5 @@ cython_debug/
 # Others
 .idea
 pretrained_models
+test_dir
+Testing

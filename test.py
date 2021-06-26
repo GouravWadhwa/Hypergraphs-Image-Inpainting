@@ -5,7 +5,7 @@ import tensorflow as tf
 
 from models.model import Model
 from options.test_options import TestOptions
-from utils.util import center_mask, irregular_mask, root, save_images
+from utils.util import center_mask, irregular_mask, save_images
 
 
 def load_image(image_file, config):
@@ -20,7 +20,7 @@ def load_image(image_file, config):
 
 def test(config):
     if config.test_file_path != "":
-        print(config.test_file_path)
+        print(f"Running with single file {config.test_file_path}")
         count = 0
 
         file = open(config.test_file_path)
@@ -33,8 +33,8 @@ def test(config):
                 mask = irregular_mask(config.image_shape[0], config.image_shape[1], config.min_strokes, config.max_strokes)
             else:
                 mask = center_mask(config.image_shape[0], config.image_shape[1])
-
-            gt_image = load_image(os.path.join(root, file), config)
+            # FIXME: Fix this to work with single image at CWD
+            gt_image = load_image(os.path.join(".", file), config)
             gt_image = np.expand_dims(gt_image, axis=0)
 
             input_image = np.where(mask == 1, 1, gt_image)
@@ -49,6 +49,7 @@ def test(config):
             print("-" * 20)
     else:
         count = 0
+        print(f"Running with directory {config.test_dir}")
         for root, dirs, files in os.walk(config.test_dir):
             for file in files:
                 if not file.split(".")[-1] in ["jpg", "png", "jpeg"]:

@@ -8,7 +8,7 @@ import numpy as np
 def irregular_mask(image_height, image_width, batch_size=1, min_strokes=16, max_strokes=48):
     masks = []
 
-    for b in range(BATCH_SIZE):
+    for b in range(batch_size):
         mask = np.zeros((image_height, image_width), np.uint8)
         mask_shape = mask.shape
 
@@ -44,7 +44,7 @@ def irregular_mask(image_height, image_width, batch_size=1, min_strokes=16, max_
 
 def center_mask(image_height, image_width, batch_size=1):
     mask = np.zeros((batch_size, image_height, image_width, 1)).astype("float32")
-    mask[:, image_height // 4: (image_height // 4) * 3, image_height // 4: (image_height // 4) * 3, :] = 1.0
+    mask[:, image_height // 4 : (image_height // 4) * 3, image_height // 4 : (image_height // 4) * 3, :] = 1.0
 
     return mask
 

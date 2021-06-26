@@ -27,7 +27,7 @@ for PATH in PATHS:
             ground_truth = image[:, 256:512, :]
 
             for i in range(COUNT_IMAGES):
-                output_image = image[:, (i + 3) * 256: (i + 4) * 256, :]
+                output_image = image[:, (i + 3) * 256 : (i + 4) * 256, :]
                 ssim[i] += tf.image.ssim_multiscale(output_image, ground_truth, max_val=1.0)
                 psnr[i] += tf.image.psnr(output_image, ground_truth, max_val=1.0)
                 l1[i] += tf.math.reduce_mean(tf.math.abs(output_image - ground_truth))
