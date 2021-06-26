@@ -1,0 +1,6 @@
+tensorflow
+Pillow
+matplotlib
+tqdm
+scipy
+# opencv-python
