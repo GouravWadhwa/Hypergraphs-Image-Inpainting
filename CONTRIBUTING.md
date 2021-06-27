@@ -11,3 +11,4 @@ This should now set up:
 - pre-commit
 - flake8
 - isort
+- autoflake
