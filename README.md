@@ -84,6 +84,9 @@ If you find this work useful or gives you some insights, please cite:
     pages={3912-3921}
 }
 ```
+
 ## Contact
+
+The code and associated models can only be used for research purposes in an academic setting. For any commercial usage and licensing, please contact 2017eeb1206@iitrpr.ac.in
 
 For any further queries please contact at 2017eeb1206@iitrpr.ac.in 
