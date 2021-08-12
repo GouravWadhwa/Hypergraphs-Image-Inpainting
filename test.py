@@ -24,7 +24,7 @@ def load_image (image_file, config) :
 
 def load_mask (mask_file, config) :
     mask = tf.io.read_file (mask_file)
-    mask = tf.image.decode_jpeg (mask, channels=1)
+    mask = tf.image.decode_png (mask, channels=1)
     mask = tf.cast (mask, dtype=tf.float32)
     mask = tf.image.resize (mask, [config.image_shape[0], config.image_shape[1]])
     mask = mask / 255.0
@@ -37,25 +37,26 @@ def test (config) :
         count = 0
 
         file = open (config.test_file_path)
-        if not config.generate_mask :
+        if config.generate_mask == 1 :
             for line in file.readlines () :
-                if not file.split('.')[-1] in ['jpg', 'png', 'jpeg'] :
+                line = line[:-1]
+                if not line.split('.')[-1] in ['jpg', 'png', 'jpeg'] :
                     continue
 
-                print ('Processing Image -', file)
+                print ('Processing Image -', line)
                 if config.random_mask == 1 :
                     mask = irregular_mask (config.image_shape[0], config.image_shape[1], config.min_strokes, config.max_strokes)
                 else :
                     mask = center_mask (config.image_shape[0], config.image_shape[1])
 
-                gt_image = load_image (os.path.join (root, file), config)
+                gt_image = load_image (line, config)
                 gt_image = np.expand_dims (gt_image, axis=0)
 
                 input_image = np.where (mask==1, 1, gt_image)
 
                 prediction_coarse, prediction_refine = generator ([input_image, mask], training=False)
                 prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
-                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, file))
+                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, line))
 
                 count += 1
                 if count == config.test_num :
@@ -63,15 +64,16 @@ def test (config) :
                 print ('-'*20)
         else :
             for line in file.readlines () :
-                if not file.split(' ')[0].split('.')[-1] in ['jpg', 'png', 'jpeg'] :
+                line = line[:-1]
+                if not line.split(' ')[0].split('.')[-1] in ['jpg', 'png', 'jpeg'] :
                     continue
 
-                print ('Processing Image -', file)
+                print ('Processing Image -', line)
 
-                gt_image = load_image (os.path.join (root, file.split (' ')[0]), config)
+                gt_image = load_image (line.split (' ')[0], config)
                 gt_image = np.expand_dims (gt_image, axis=0)
                 
-                mask = load_mask (os.path.join (root, file.split (' ')[1]), config)
+                mask = load_mask (line.split (' ')[1], config)
                 mask = np.where (np.array (mask) > 0.5, 1.0, 0.0).astype (np.float32)
                 mask = np.expand_dims (mask, axis=0)
                 
@@ -79,7 +81,7 @@ def test (config) :
 
                 prediction_coarse, prediction_refine = generator ([input_image, mask], training=False)
                 prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
-                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, file))
+                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, line.split (' ')[0]))
 
                 count += 1
                 if count == config.test_num :
