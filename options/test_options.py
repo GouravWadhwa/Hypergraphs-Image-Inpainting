@@ -17,7 +17,7 @@ class TestOptions :
 
         self.parser.add_argument ('--random_mask', type=int, default=0, help='0 -> Center 128 * 128 mask, 1 -> random mask')
         self.parser.add_argument ('--random_mask_type', type=str, default='irregular_mask', help='options - irregular_mask and random_rect')
-        self.parser.add_argument ('--generate_mask', type=strtobool, default=True, help='whether masks will be given in the testing files')
+        self.parser.add_argument ('--generate_mask', type=str2bool, default=True, help='whether masks will be given in the testing files')
         self.parser.add_argument ('--min_strokes', type=int, default=16)
         self.parser.add_argument ('--max_strokes', type=int, default=48)
         
