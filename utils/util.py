@@ -8,8 +8,9 @@ import numpy as np
 def irregular_mask(image_height, image_width, batch_size=1, min_strokes=16, max_strokes=48):
     masks = []
 
-    for b in range(batch_size):
-        mask = np.zeros((image_height, image_width), np.uint8)
+    for b in range (batch_size) :
+        mask = np.zeros ((image_height, image_width), np.uint8)
+
         mask_shape = mask.shape
 
         max_width = 20

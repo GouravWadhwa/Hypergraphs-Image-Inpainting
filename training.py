@@ -208,9 +208,9 @@ if __name__ == "__main__":
     outputs = [vgg.get_layer(name).output for name in selected_layers]
     vgg_model = tf.keras.Model([vgg.input], outputs)
 
-    model = Model()
-    generator = model.build_generator()
-    discriminator = model.build_discriminator()
+    model = Model ()
+    generator = model.build_generator (IMAGE_HEIGHT, IMAGE_WIDTH)
+    discriminator = model.build_discriminator (IMAGE_HEIGHT, IMAGE_WIDTH)
 
     learning_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
         initial_learning_rate=config.learning_rate, decay_steps=config.decay_steps, decay_rate=config.decay_rate, staircase=True
