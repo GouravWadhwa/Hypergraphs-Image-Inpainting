@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import os
-import cv2
 import datetime
 
 from tqdm import tqdm
@@ -202,8 +201,8 @@ if __name__ == '__main__' :
     vgg_model = tf.keras.Model ([vgg.input], outputs)
 
     model = Model ()
-    generator = model.build_generator ()
-    discriminator = model.build_discriminator ()
+    generator = model.build_generator (IMAGE_HEIGHT, IMAGE_WIDTH)
+    discriminator = model.build_discriminator (IMAGE_HEIGHT, IMAGE_WIDTH)
 
     learning_schedule = tf.keras.optimizers.schedules.ExponentialDecay (
         initial_learning_rate=config.learning_rate, 

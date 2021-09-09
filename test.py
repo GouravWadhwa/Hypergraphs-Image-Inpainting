@@ -3,7 +3,6 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-import cv2
 import datetime
 
 from models.model import Model
@@ -119,7 +118,7 @@ if __name__ == '__main__' :
     config = TestOptions().parse ()
 
     model = Model ()
-    generator = model.build_generator ()
+    generator = model.build_generator (config.image_shape[0], config.image_shape[1])
 
     checkpoint = tf.train.Checkpoint (generator=generator)
     checkpoint.restore (os.path.join (config.pretrained_model_dir, config.checkpoint_prefix))
