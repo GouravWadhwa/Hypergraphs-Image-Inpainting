@@ -90,7 +90,7 @@ class HypergraphConv (tf.keras.layers.Layer) :
         
         # Edge degree Matrix
         B = tf.math.reduce_sum (H, axis=1)
-        B = tf.linalg.diag (tf.math.pow (B, -1))
+        B = tf.linalg.diag (tf.math.pow (B + 1e-10, -1))
         
         # Reshape the input features to apply the Hypergraph Convolution
         features = tf.reshape (x, shape=(-1, self.vertices, self.in_features))
