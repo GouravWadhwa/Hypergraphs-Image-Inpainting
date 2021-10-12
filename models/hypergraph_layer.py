@@ -86,7 +86,7 @@ class HypergraphConv (tf.keras.layers.Layer) :
         D = tf.math.reduce_sum (H, axis=2)
 
         # Mutlpying with the incidence matrix to ensure no matrix developed is of large size - (number of vertices * number of vertices)
-        D_H = tf.multiply (tf.expand_dims (tf.math.pow (D, -0.5), axis=-1), H)
+        D_H = tf.multiply (tf.expand_dims (tf.math.pow (D + 1e-10, -0.5), axis=-1), H)
         
         # Edge degree Matrix
         B = tf.math.reduce_sum (H, axis=1)
