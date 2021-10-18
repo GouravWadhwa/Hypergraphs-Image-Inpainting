@@ -55,7 +55,7 @@ def test (config) :
 
                 prediction_coarse, prediction_refine = generator ([input_image, mask], training=False)
                 prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
-                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, line))
+                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, line.split ('/')[-1])
 
                 count += 1
                 if count == config.test_num :
@@ -80,7 +80,7 @@ def test (config) :
 
                 prediction_coarse, prediction_refine = generator ([input_image, mask], training=False)
                 prediction_refine = prediction_refine * mask + gt_image * (1  - mask)
-                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, line.split (' ')[0]))
+                save_images (input_image[0, ...], gt_image[0, ...], prediction_coarse[0, ...], prediction_refine[0, ...], os.path.join (config.testing_dir, line.split (' ')[0].split ('/')[-1]))
 
                 count += 1
                 if count == config.test_num :
