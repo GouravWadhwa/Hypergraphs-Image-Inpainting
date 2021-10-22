@@ -1,6 +1,6 @@
 # Hyperrealistic Image Inpainting with Hypergraphs
 
-This repository contains the implmentation Image Inpainting method proposed in the paper
+This repository contains the implmentation of Image Inpainting method proposed in the paper
 
 Gourav Wadhwa, Abhinav Dhall, Subrahmanyam Murala, and Usman Tariq, Hyperrealistic Image Inpainting with Hypergraphs.In IEEE Winter Conference on Computer Vision (WACV), 2021.
 
