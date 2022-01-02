@@ -25,7 +25,7 @@ We use a two stage coarse-to-refine network for the task of image inpainting
 
 <img src="./Examples/network.png" width="100%" alt="network">
 
-## Hypergraph Layer 
+## Hypergraph Layer
 <img src="./Examples/hypergraph_layer.png" width="60%" alt="hypergraph_layer">
 
 ## Installation
@@ -52,7 +52,7 @@ python test.py --dataset celeba-hq --pretrained_model_dir pretrained_models/ --c
 
 Note - For all predicted images, 1st image represent the input image, 2nd represent the ground truth, 3rd represents the coarse network output and the final image is our final prediction.
 
-You can use `evaluate.py` to determine SSIM and PSNR of the predicted images. 
+You can use `evaluate.py` to determine SSIM and PSNR of the predicted images.
 
 ## Training
 You can train the Hyperrealistic image inpainting network using the following command
@@ -89,4 +89,4 @@ If you find this work useful or gives you some insights, please cite:
 
 The code and associated models can only be used for research purposes in an academic setting. For any commercial usage and licensing, please contact 2017eeb1206@iitrpr.ac.in
 
-For any further queries please contact at 2017eeb1206@iitrpr.ac.in 
+For any further queries please contact at 2017eeb1206@iitrpr.ac.in
